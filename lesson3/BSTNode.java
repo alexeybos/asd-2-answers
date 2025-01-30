@@ -1,5 +1,3 @@
-package org.skillsmart.asd2real.lesson3;
-
 import java.io.*;
 import java.util.*;
 
