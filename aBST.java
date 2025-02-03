@@ -6,15 +6,9 @@ class aBST
 
     public aBST(int depth)
     {
-        int tree_size = getSizeByDepth(depth, 0);
+        int tree_size = (int) Math.pow(2, depth + 1) - 1;
         Tree = new Integer[ tree_size ];
         for(int i=0; i<tree_size; i++) Tree[i] = null;
-    }
-
-    private int getSizeByDepth(int depth, int levelSum) {
-        if (depth == 0) return levelSum + 1;
-        double nodesCnt = Math.pow(2, depth);
-        return getSizeByDepth(depth - 1, (int) nodesCnt + levelSum);
     }
 
     public Integer FindKeyIndex(int key)
