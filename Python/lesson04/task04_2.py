@@ -122,7 +122,8 @@ class aBST:
     # 3. Способы обхода дерева
     # 3.4 Добавьте метод, который находит уровень в текущем дереве, сумма значений узлов на котором максимальна
     # Здесь по условию задачи по сути явно проговаривается использование BFS в решении, т.к. движемся по уровням - собственно его и использовал.
-    # Ну и привычно к сожалению вновь без копипасты обхода не обошлось, т.е. логику суммирования я не выделил в отдельный метод, а все зашито непосредственно в обходе дерева. Здесь надо будет опять поработать надо собой и кодом.
+    # Ну и привычно к сожалению вновь без копипасты обхода не обошлось, т.е. логику суммирования я не выделил в отдельный метод, а все зашито непосредственно в обходе дерева.
+    # Здесь надо будет опять поработать надо собой и кодом (добавил вариант такой реализации в прошлый task03_02).
 
     # 3. Способы обхода дерева
     # 3.5 разработайте функцию для восстановления оригинального дерева по результатам обхода дерева в префиксном и инфиксном порядке
@@ -130,44 +131,3 @@ class aBST:
     # Поэтому определяем порядок следования узлов по префиксному массиву, а по инфиксному уже однозначно определяем, с какой стороны от корня нужно расположить очередной узел.
     # Для бинарного дерева поиска действительно достаточно только префиксного массива, т.к. мы точно знаем с какой стороны вершины находятся узлы с ключами больше/меньше.
 
-        # встраивание логики подсчета суммы и формирования в обход дерева (для 3.4)
-        ProcessNodeOnLevel = Callable[[BSTNode, int], None]
-
-        def standart_BFS(self, processor: ProcessNodeOnLevel) -> None:
-            queue: deque = deque([self.Root])
-            cur_level = 0
-            while queue:
-                level_size = len(queue)
-                for index in range(level_size):
-                    cur_node = queue.popleft()
-                    if cur_node.LeftChild is not None:
-                        queue.append(cur_node.LeftChild)
-                    if cur_node.RightChild is not None:
-                        queue.append(cur_node.RightChild)
-                    processor(cur_node, cur_level)
-                cur_level += 1
-
-        def get_level_with_max_sum_new(self) -> tuple:
-            max_level_nodes: list = []
-            current_level_nodes: list = []
-            max_sum: int = 0
-            current_sum: int = 0
-            current_level: int = 0
-
-            def process_sum(node: BSTNode, level: int) -> None:
-                nonlocal current_sum, current_level, max_sum, current_level_nodes, max_level_nodes
-                if current_level == level:
-                    current_sum += node.NodeValue
-                    current_level_nodes.append(node)
-                    return
-                current_level = level
-                if current_sum > max_sum:
-                    max_sum = current_sum
-                    max_level_nodes = current_level_nodes.copy()
-                    current_level_nodes = [node]
-
-            self.standart_BFS(process_sum)
-
-            if current_sum > max_sum:
-                return tuple(current_level_nodes)
-            return tuple(max_level_nodes)
