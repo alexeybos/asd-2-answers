@@ -5,10 +5,10 @@ class Heap:
         self.HeapArray = []
 
     def MakeHeap(self, a, depth):
-        self.HeapArray = [None] * ((2 ** (depth + 1)) - 1)
-        a.sort(reverse=True)
-        for i in range(len(a)):
-            self.HeapArray[i] = a[i]
+        heap_size: int = (2 ** (depth + 1)) - 1
+        self.HeapArray = [None] * heap_size
+        for val in a:
+            self.Add(val)
 
     def GetMax(self):
         if len(self.HeapArray) == 0 or self.HeapArray[0] is None:
